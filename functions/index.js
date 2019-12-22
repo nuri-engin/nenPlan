@@ -27,18 +27,19 @@ exports.projectCreated = functions.firestore
 });
 
 exports.userJoined = functions.auth.user()
-.onCreate(user => {
+  .onCreate(user => {
+    
+    return admin.firestore().collection('users')
+      .doc(user.uid).get().then(doc => {
 
-    return admin.firestore().collection("users")
-    .doc(user.uid).get().then(doc => {
         const newUser = doc.data();
-
         const notification = {
-            content: "Joined to app",
-            user: `${newUser.firstName} ${newUser.lastName}`,
-            time: admin.firestore.FieldValue.serverTimestamp()
-        }
+          content: 'Joined the app',
+          user: `${newUser.firstName} ${newUser.lastName}`,
+          time: admin.firestore.FieldValue.serverTimestamp()
+        };
 
         return createNotification(notification);
-    });
+
+      });
 });
