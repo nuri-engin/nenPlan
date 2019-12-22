@@ -13,8 +13,8 @@ const createNotification = (notification) => {
     .then(doc => console.log("notification added", doc))
 }
 
-exports.createdProject = functions.firestore
-.document("/projects/{projectId}")
+exports.projectCreated = functions.firestore
+.document("projects/{projectId}")
 .onCreate(doc => {
     const project = doc.data();
     const notification = {
@@ -24,4 +24,21 @@ exports.createdProject = functions.firestore
     }
 
     return createNotification(notification);
+});
+
+exports.userJoined = functions.auth.user()
+.onCreate(user => {
+
+    return admin.firestore().collection("users")
+    .doc(user.uid).get().then(doc => {
+        const newUser = doc.data();
+
+        const notification = {
+            content: "Joined to app",
+            user: `${newUser.firstName} ${newUser.lastName}`,
+            time: admin.firestore.FieldValue.serverTimestamp()
+        }
+
+        return createNotification(notification);
+    });
 });
