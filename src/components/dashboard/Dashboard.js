@@ -43,6 +43,21 @@ export default compose(
   connect(mapStateToProps),
   firestoreConnect([
     {collection: "projects", orderBy: ['createdAt', 'desc']},
-    {collection: "notifications", limit: 3, orderBy: ['time', 'desc']}
+    {collection: "notifications", limit: 3, orderBy: ['time', 'desc']},
+
+    {
+      collection: 'farm_orders',
+      doc: 'february',
+      includeDoc: true,
+      subcollections: [{ collection: 'farms'}],
+      storeAs: "farm_orders"
+    },
+    {
+      collection: 'user_orders',
+      doc: 'february',
+      includeDoc: true,
+      subcollections: [{ collection: 'users'}],
+      storeAs: "user_orders"
+    },
   ])
 )(Dashboard);

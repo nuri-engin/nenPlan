@@ -14,6 +14,23 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore().settings({ timestampsInSnapshots: true });
-
 export default firebase;
+
+//DB Rules sample 
+// service cloud.firestore {
+//   match /databases/{database}/documents {
+//     match /projects/{project} {
+//       allow read, write: if request.auth.uid != null;
+//     }
+    
+//     match /users/{userId} {
+//     	allow create
+// 	    allow read: if request.auth.uid != null
+//   	  allow write: if request.auth.uid == userId
+//     }
+    
+//     match /notifications/{notification} {
+//       allow read: if request.auth.uid != null;
+//     }
+//   }
+// }

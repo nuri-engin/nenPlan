@@ -18,6 +18,10 @@ const ProjectDetails = props => {
           <div className="card-content">
             <span className="card-title">{project.title}</span>
             <p>{project.content}</p>
+            <br/><br/>
+            <button>Give Order</button> <button>Your Orders</button>
+            <br/> 
+            <button>All User Orders</button> <button>All Farm Orders</button>
           </div>
           <div className="card-action grey lighten-4 grey-text">
             <div>
